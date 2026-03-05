@@ -16,3 +16,37 @@ spring:
 book-service:
   base-url: http://localhost:8081
   books-path: /api/v1/books
+
+resilience4j:
+  retry:
+    instances:
+      bookService:
+        max-attempts: 3
+        wait-duration: 200ms
+        retry-exceptions:
+          - org.springframework.web.client.ResourceAccessException
+          - org.springframework.web.client.HttpServerErrorException
+        ignore-exceptions:
+          - org.springframework.web.client.HttpClientErrorException
+  #    retry-aspect-order: 2
+  circuitbreaker:
+    instances:
+      bookService:
+        sliding-window-type: count_based
+        sliding-window-size: 20
+        minimum-number-of-calls: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        record-exceptions:
+          - org.springframework.web.client.ResourceAccessException
+          - org.springframework.web.client.HttpServerErrorException
+#    circuit-breaker-aspect-order: 1
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [%X{correlationId}] %logger{36} : %msg%n"
+  level:
+    org.springframework.jdbc.datasource: DEBUG
+    org.hibernate.engine.jdbc.env.internal: DEBUG
+

@@ -13,3 +13,10 @@ spring:
     hibernate:
       ddl-auto: update
 
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [%X{correlationId}] %logger{36} : %msg%n"
+  level:
+    org.springframework.jdbc.datasource: DEBUG
+    org.hibernate.engine.jdbc.env.internal: DEBUG
+
