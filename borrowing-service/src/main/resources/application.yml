@@ -12,6 +12,11 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 book-service:
   base-url: http://localhost:8081
@@ -42,6 +47,7 @@ resilience4j:
           - org.springframework.web.client.ResourceAccessException
           - org.springframework.web.client.HttpServerErrorException
 #    circuit-breaker-aspect-order: 1
+
 
 logging:
   pattern:
