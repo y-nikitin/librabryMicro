@@ -16,7 +16,7 @@ public class BookService {
     private final BookRepository bookRepository;
 
     //додаючи Transactional, ми переконуємось що зміни гарантовано фіксуються в базі при успішному завершенні методу
-    @Transactional
+    @Transactional(noRollbackFor = {IllegalStateException.class, EntityNotFoundException.class})
     public void reserveBook(Long bookId) {
         log.info("reserving book with id {}", bookId);
 

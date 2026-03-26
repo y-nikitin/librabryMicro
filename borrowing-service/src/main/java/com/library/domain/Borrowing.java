@@ -27,9 +27,28 @@ public class Borrowing {
     @Column(name = "borrowed_at", nullable = false)
     private OffsetDateTime borrowedAt;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = true)
+    private BorrowingStatus status;
+
     public Borrowing(Long bookId, String borrower) {
         this.bookId = bookId;
         this.borrower = borrower;
         this.borrowedAt = OffsetDateTime.now();
+        this.status = BorrowingStatus.PENDING;
+    }
+
+    public void approve() {
+        if (this.status != BorrowingStatus.PENDING) {
+            throw new IllegalStateException("Borrowing cannot be approved from status " + this.status);
+        }
+        this.status = BorrowingStatus.APPROVED;
+    }
+
+    public void cancel() {
+        if (this.status != BorrowingStatus.PENDING) {
+            throw new IllegalStateException("Borrowing cannot be cancelled from status " + this.status);
+        }
+        this.status = BorrowingStatus.CANCELED;
     }
 }

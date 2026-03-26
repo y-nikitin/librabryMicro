@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
-    public static final String BORROWING_CREATED_QUEUE = "borrowing.created.queue";
+    public static final String BORROWING_CREATED_QUEUE = "borrowing.created";
 
     @Bean
     public Queue borrowingCreatedQueue() {

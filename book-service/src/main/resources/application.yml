@@ -12,7 +12,15 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
 logging:
   pattern:
     console: "%d{yyyy-MM-dd'T'HH:mm:ss.SSSXXX} %-5level [%X{correlationId}] %logger{36} : %msg%n"
