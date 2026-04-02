@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.library.api.dto.BorrowingApprovedPayload;
 import com.library.api.dto.BorrowingCancelledPayload;
+import com.library.api.dto.BorrowingSummaryResponse;
 import com.library.application.event.BorrowingCreatedPayload;
 import com.library.domain.Borrowing;
 import com.library.domain.OutboxEvent;
@@ -24,6 +25,19 @@ public class BorrowingService {
     private final BorrowingRepository borrowingRepository;
     private final OutboxEventRepository outboxEventRepository;
     private final ObjectMapper objectMapper;
+
+    @Transactional
+    public BorrowingSummaryResponse getBorrowingSummary(Long id) {
+        Borrowing borrowing = borrowingRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Borrowing not found: " + id));
+
+        return BorrowingSummaryResponse.builder()
+                .id(borrowing.getId())
+                .borrower(borrowing.getBorrower())
+                .bookId(borrowing.getBookId())
+                .status(borrowing.getStatus() != null ? borrowing.getStatus().name() : null)
+                .build();
+    }
 
     @Transactional
     public Long createBorrowing(CreateBorrowingRequest request) {

@@ -17,7 +17,7 @@ public class BookEventsListener {
     private final BorrowingService borrowingService;
     private final ObjectMapper objectMapper;
 
-    @RabbitListener(queues = RabbitConfig.BOOK_RESERVED_QUEUE)
+//    @RabbitListener(queues = RabbitConfig.BOOK_RESERVED_QUEUE)
     public void handleBookReserved(String message) throws Exception {
         BookReservedPayload payload = objectMapper.readValue(message, BookReservedPayload.class);
 
@@ -27,7 +27,7 @@ public class BookEventsListener {
         borrowingService.approveBorrowing(payload.borrowingId());
     }
 
-    @RabbitListener(queues = RabbitConfig.BOOK_RESERVATION_FAILED_QUEUE)
+//    @RabbitListener(queues = RabbitConfig.BOOK_RESERVATION_FAILED_QUEUE)
     public void handleBookReservationFailed(String message) throws Exception {
         BookReservationFailedPayload payload = objectMapper.readValue(message, BookReservationFailedPayload.class);
 

@@ -1,5 +1,6 @@
 package com.library.api;
 
+import com.library.api.dto.BookSummaryResponse;
 import com.library.application.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,11 @@ import org.springframework.web.bind.annotation.*;
 public class BookController {
 
     private final BookService bookService;
+
+    @GetMapping("/{id}")
+    public BookSummaryResponse getBook(@PathVariable("id") Long id) {
+        return bookService.getBookSummary(id);
+    }
 
     @PostMapping("/{id}/reserve")
     @ResponseStatus(HttpStatus.NO_CONTENT)

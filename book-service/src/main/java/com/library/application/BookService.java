@@ -1,5 +1,6 @@
 package com.library.application;
 
+import com.library.api.dto.BookSummaryResponse;
 import com.library.domain.Book;
 import com.library.infrastructure.persistence.BookRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -14,6 +15,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class BookService {
 
     private final BookRepository bookRepository;
+
+    @Transactional(readOnly = true)
+    public BookSummaryResponse getBookSummary(Long id) {
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Book not found: " + id));
+
+        return BookSummaryResponse.builder()
+                .id(book.getId())
+                .title(book.getTitle())
+                .author(book.getAuthor())
+                .available(book.isAvailable())
+                .build();
+    }
 
     //додаючи Transactional, ми переконуємось що зміни гарантовано фіксуються в базі при успішному завершенні методу
     @Transactional(noRollbackFor = {IllegalStateException.class, EntityNotFoundException.class})
