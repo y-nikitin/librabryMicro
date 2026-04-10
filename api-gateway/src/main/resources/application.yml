@@ -4,7 +4,11 @@ server:
 spring:
   application:
     name: api-gateway
-
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          secret-key: my-secret-key-which-should-be-long
   cloud:
     gateway:
       server:
