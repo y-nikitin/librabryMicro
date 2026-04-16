@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: book-service
+  config:
+    import: optional:configserver:http://localhost:8888
   datasource:
     url: jdbc:postgresql://localhost:5432/book
     username: postgres
@@ -27,4 +29,8 @@ logging:
   level:
     org.springframework.jdbc.datasource: DEBUG
     org.hibernate.engine.jdbc.env.internal: DEBUG
-
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,refresh
