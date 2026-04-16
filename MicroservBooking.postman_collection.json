@@ -1,0 +1,329 @@
+{
+  "info": {
+    "_postman_id": "b82fdf32-f087-43e0-8cbb-aea5c308a367",
+    "name": "MicroservBooking",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "6754471"
+  },
+  "variable": [
+    {
+      "key": "gateway_url",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "book_service_url",
+      "value": "http://localhost:8081"
+    },
+    {
+      "key": "borrowing_service_url",
+      "value": "http://localhost:8082"
+    },
+    {
+      "key": "notification_service_url",
+      "value": "http://localhost:8083"
+    },
+    {
+      "key": "config_server_url",
+      "value": "http://localhost:8888"
+    },
+    {
+      "key": "book_id",
+      "value": "1"
+    },
+    {
+      "key": "borrowing_id",
+      "value": "1"
+    },
+    {
+      "key": "jwt_token",
+      "value": "<your-jwt-token>"
+    }
+  ],
+  "item": [
+    {
+      "name": "API Gateway",
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "{{jwt_token}}",
+            "type": "string"
+          }
+        ]
+      },
+      "item": [
+        {
+          "name": "Get Borrowing Details (Aggregated)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/library/borrowings/{{borrowing_id}}/details",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "library", "borrowings", "{{borrowing_id}}", "details"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Book by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/books/{{book_id}}",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "books", "{{book_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reserve Book",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/books/{{book_id}}/reserve",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "books", "{{book_id}}", "reserve"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Release Book",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/books/{{book_id}}/release",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "books", "{{book_id}}", "release"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Borrowing",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookId\": 1,\n  \"borrower\": \"John Doe\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/borrowings",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "borrowings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Borrowing by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/borrowings/{{borrowing_id}}",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "borrowings", "{{borrowing_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Notifications by Borrowing ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{gateway_url}}/api/v1/notifications/borrowings/{{borrowing_id}}",
+              "host": ["{{gateway_url}}"],
+              "path": ["api", "v1", "notifications", "borrowings", "{{borrowing_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Book Service",
+      "item": [
+        {
+          "name": "Get Book by ID (direct)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-User-Id",
+                "value": "user-1",
+                "type": "text"
+              },
+              {
+                "key": "X-Roles",
+                "value": "ROLE_USER",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{book_service_url}}/api/v1/books/{{book_id}}",
+              "host": ["{{book_service_url}}"],
+              "path": ["api", "v1", "books", "{{book_id}}"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reserve Book (direct)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{book_service_url}}/api/v1/books/{{book_id}}/reserve",
+              "host": ["{{book_service_url}}"],
+              "path": ["api", "v1", "books", "{{book_id}}", "reserve"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Release Book (direct)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{book_service_url}}/api/v1/books/{{book_id}}/release",
+              "host": ["{{book_service_url}}"],
+              "path": ["api", "v1", "books", "{{book_id}}", "release"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Borrowing Service",
+      "item": [
+        {
+          "name": "Create Borrowing (direct)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"bookId\": 1,\n  \"borrower\": \"John Doe\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{borrowing_service_url}}/api/v1/borrowings",
+              "host": ["{{borrowing_service_url}}"],
+              "path": ["api", "v1", "borrowings"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Borrowing by ID (direct)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{borrowing_service_url}}/api/v1/borrowings/{{borrowing_id}}",
+              "host": ["{{borrowing_service_url}}"],
+              "path": ["api", "v1", "borrowings", "{{borrowing_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Notification Service",
+      "item": [
+        {
+          "name": "Get Notifications by Borrowing ID (direct)",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{notification_service_url}}/api/v1/notifications/borrowings/{{borrowing_id}}",
+              "host": ["{{notification_service_url}}"],
+              "path": ["api", "v1", "notifications", "borrowings", "{{borrowing_id}}"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Config",
+      "description": "Demonstrates runtime config refresh via Spring Cloud Bus.\n\nWorkflow:\n1. Call 'Debug Config (borrowing-service)' to see current values\n2. Edit a value in configuration/ (e.g. book-service.books-path)\n3. Call 'Bus Refresh (via config-server)' to push changes\n4. Call 'Debug Config (borrowing-service)' again to verify the update",
+      "item": [
+        {
+          "name": "get config",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{borrowing_service_url}}/api/v1/debug/config",
+              "host": ["{{borrowing_service_url}}"],
+              "path": ["api", "v1", "debug", "config"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "full refresh",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{config_server_url}}/actuator/busrefresh",
+              "host": ["{{config_server_url}}"],
+              "path": ["actuator", "busrefresh"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "refresh borrowing-service",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{borrowing_service_url}}/actuator/refresh",
+              "host": ["{{borrowing_service_url}}"],
+              "path": ["actuator", "refresh"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
