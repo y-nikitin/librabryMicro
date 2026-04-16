@@ -4,13 +4,12 @@ server:
 spring:
   application:
     name: notification-service
-  datasource:
-    url: jdbc:postgresql://localhost:5432/notification
-    username: postgres
-    password: 12345
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
   config:
-    import: "optional:configserver:http://localhost:8888"
-
+    import: "optional:configserver:${CONFIG_SERVER_URL:http://localhost:8888}"
+  datasource:
+    password: 12345
   rabbitmq:
     username: guest
     password: guest

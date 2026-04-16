@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:db}:${DB_PORT:5432}/borrow
+    username: ${DB_USERNAME:borrowing_svc}
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: validate
+
+book-service:
+  base-url: http://${BOOK_SERVICE_HOST:book-service}:8081
+
+logging:
+  level:
+    org.springframework.jdbc.datasource: WARN
+    org.hibernate.engine.jdbc.env.internal: WARN

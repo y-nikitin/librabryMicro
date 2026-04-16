@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:db}:${DB_PORT:5432}/book
+    username: ${DB_USERNAME:book_svc}
+  jpa:
+    show-sql: false
+
+logging:
+  level:
+    org.springframework.jdbc.datasource: INFO
+    org.hibernate.engine.jdbc.env.internal: INFO

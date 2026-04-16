@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/borrow
+    username: postgres
+  jpa:
+    show-sql: true
+
+book-service:
+  base-url: http://localhost:8081
+
+logging:
+  level:
+    org.springframework.jdbc.datasource: DEBUG
+    org.hibernate.engine.jdbc.env.internal: DEBUG

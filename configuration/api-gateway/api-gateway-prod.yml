@@ -5,30 +5,30 @@ spring:
         webflux:
           routes:
             - id: book-service
-              uri: http://localhost:8081
+              uri: http://${BOOK_SERVICE_HOST:book-service}:8081
               predicates:
                 - Path=/api/v1/books/**
 
             - id: borrowing-service
-              uri: http://localhost:8082
+              uri: http://${BORROWING_SERVICE_HOST:borrowing-service}:8082
               predicates:
                 - Path=/api/v1/borrowings/**
 
             - id: notification-service
-              uri: http://localhost:8083
+              uri: http://${NOTIFICATION_SERVICE_HOST:notification-service}:8083
               predicates:
                 - Path=/api/v1/notifications/**
 
 services:
   book:
-    base-url: http://localhost:8081
+    base-url: http://${BOOK_SERVICE_HOST:book-service}:8081
   borrowing:
-    base-url: http://localhost:8082
+    base-url: http://${BORROWING_SERVICE_HOST:borrowing-service}:8082
   notification:
-    base-url: http://localhost:8083
+    base-url: http://${NOTIFICATION_SERVICE_HOST:notification-service}:8083
 
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,gateway
+        include: health

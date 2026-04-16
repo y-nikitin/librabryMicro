@@ -1,14 +1,4 @@
-spring:
-  datasource:
-    url: jdbc:postgresql://localhost:5432/borrow
-    username: postgres
-  jpa:
-    show-sql: true
-    hibernate:
-      ddl-auto: update
-
 book-service:
-  base-url: http://localhost:8081
   books-path: /api/v1/books
 
 resilience4j:
@@ -34,8 +24,3 @@ resilience4j:
         record-exceptions:
           - org.springframework.web.client.ResourceAccessException
           - org.springframework.web.client.HttpServerErrorException
-
-logging:
-  level:
-    org.springframework.jdbc.datasource: DEBUG
-    org.hibernate.engine.jdbc.env.internal: DEBUG

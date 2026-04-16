@@ -3,6 +3,4 @@ spring:
     url: jdbc:postgresql://localhost:5432/notification
     username: postgres
   jpa:
-    hibernate:
-      ddl-auto: update
     show-sql: true
