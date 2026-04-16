@@ -1,6 +1,7 @@
 package com.library.infrastructure.client;
 
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
@@ -10,12 +11,13 @@ import java.net.http.HttpClient;
 import java.time.Duration;
 
 @Configuration
+@RequiredArgsConstructor
 public class ClientConfig {
 
-    @Value("${book-service.base-url}")
-    private String bookBaseUrl;
+    private final BookServiceProperties bookServiceProperties;
 
     @Bean
+    @RefreshScope
     RestClient restClient(RestClient.Builder builder) {
         var httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofMillis(500))
@@ -25,7 +27,7 @@ public class ClientConfig {
         requestFactory.setReadTimeout(Duration.ofMillis(800));
 
         return builder
-                .baseUrl(bookBaseUrl)
+                .baseUrl(bookServiceProperties.getBaseUrl())
                 .requestFactory(requestFactory)
                 .build();
     }

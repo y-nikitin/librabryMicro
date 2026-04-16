@@ -5,7 +5,6 @@ import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -17,9 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class BookServiceClient {
 
     private final RestClient restClient;
-
-    @Value("${book-service.books-path}")
-    private String booksPath;
+    private final BookServiceProperties bookServiceProperties;
 
     @Retry(name = "bookService", fallbackMethod = "reserveFallback")
     @CircuitBreaker(name = "bookService", fallbackMethod = "reserveFallback")
@@ -30,7 +27,7 @@ public class BookServiceClient {
         log.info("corelation header {}", correlation);
 
         restClient.post()
-                .uri(booksPath + "/{id}/reserve", bookId)
+                .uri(bookServiceProperties.getBooksPath() + "/{id}/reserve", bookId)
                 .header(CorrelationIdFilter.HEADER, correlation)
                 .retrieve()
                 .toBodilessEntity();
@@ -38,7 +35,7 @@ public class BookServiceClient {
 
     public void releaseBook(Long bookId) {
         restClient.post()
-                .uri(booksPath + "/{id}/release", bookId)
+                .uri(bookServiceProperties.getBooksPath() + "/{id}/release", bookId)
                 .retrieve()
                 .toBodilessEntity();
     }
